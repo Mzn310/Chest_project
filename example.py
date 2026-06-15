@@ -15,6 +15,8 @@ import logging
 logging.basicConfig(level=logging.WARN)
 logger = logging.getLogger(__name__)
 
+# import dagshub
+# dagshub.init(repo_owner='Mzn310', repo_name='Chest_project', mlflow=True)
 
 def eval_metrics(actual, pred):
     rmse = np.sqrt(mean_squared_error(actual, pred))
@@ -45,6 +47,11 @@ if __name__ == "__main__":
     alpha=float(sys.argv[1]) if len(sys.argv) > 1 else 0.5
     l1_ratio=float(sys.argv[2]) if len(sys.argv) > 2 else 0.5
 
+
+    # to remove server only with EC2
+    remote_server_uri ="http://ec2-13-61-182-183.eu-north-1.compute.amazonaws.com:5000/"
+    mlflow.set_tracking_uri(remote_server_uri)
+    mlflow.set_experiment("ElasticNet-Wine")
     with mlflow.start_run():
         lr=ElasticNet(alpha=alpha, l1_ratio=l1_ratio, random_state=42)
         lr.fit(train_x, train_y)
@@ -63,6 +70,8 @@ if __name__ == "__main__":
         mlflow.log_metric("rmse", rmse)
         mlflow.log_metric("r2", r2)
         mlflow.log_metric("mae", mae)
+
+
 
         predictions= lr.predict(train_x)
         signature = infer_signature(train_x, predictions)
