@@ -1,20 +1,7 @@
 import os
 import zipfile
 import gdown
-import logging
-
-# ─── Logger Setup ─────────────────────────────────────
-os.makedirs("logs", exist_ok=True)
-
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s: %(levelname)s: %(module)s: %(message)s]",
-    handlers=[
-        logging.FileHandler("logs/running_logs.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger("cnnClassifierLogger")
+from src.cnnClassifier.logger import logger
 
 STAGE_NAME     = "Data Ingestion stage"
 SOURCE_URL     = "https://drive.google.com/file/d/1z0mreUtRmR-P-magILsDR3T7M6IkGXtY/view?usp=sharing"

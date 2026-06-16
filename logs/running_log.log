@@ -1,1 +1,32 @@
 [2026-06-15 17:34:01,604: INFO: Welcome to cnnClassifier]
+[2026-06-16 15:35:07,404: INFO: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-06-16 15:35:07,406: INFO: Downloading data from https://drive.google.com/file/d/1z0mreUtRmR-P-magILsDR3T7M6IkGXtY/view?usp=sharing]
+[2026-06-16 15:35:33,718: INFO: Downloaded to: artifacts/data_ingestion/data.zip]
+[2026-06-16 15:35:33,720: INFO: Extracting artifacts/data_ingestion/data.zip ...]
+[2026-06-16 15:35:34,762: INFO: Extracted to: artifacts/data_ingestion/]
+[2026-06-16 15:35:34,762: INFO: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-06-16 15:42:01,974: INFO: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-06-16 15:42:01,976: INFO: Downloading data from https://drive.google.com/file/d/1z0mreUtRmR-P-magILsDR3T7M6IkGXtY/view?usp=sharing]
+[2026-06-16 15:42:28,170: INFO: Downloaded to: artifacts/data_ingestion/data.zip]
+[2026-06-16 15:42:28,175: INFO: Extracting artifacts/data_ingestion/data.zip ...]
+[2026-06-16 15:42:29,136: INFO: Extracted to: artifacts/data_ingestion/]
+[2026-06-16 15:42:29,136: INFO: >>>>>> stage Data Ingestion stage completed <<<<<<
+
+x==========x]
+[2026-06-16 15:43:58,914: INFO: >>>>>> stage Data Ingestion stage started <<<<<<]
+[2026-06-16 15:43:58,915: INFO: Downloading data from https://drive.google.com/file/d/1z0mreUtRmR-P-magILsDR3T7M6IkGXtY/view?usp=sharing]
+[2026-06-16 15:51:10,704: INFO: *******************]
+[2026-06-16 15:51:10,704: INFO: >>>>>> stage Prepare base model started <<<<<<]
+[2026-06-16 15:51:10,704: INFO: Created directory: artifacts/prepare_base_model]
+[2026-06-16 15:51:10,708: INFO: Loading VGG16 base model...]
+[2026-06-16 15:51:11,403: WARNING: You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. ]
+[2026-06-16 15:51:11,593: INFO: Base model saved to: artifacts/prepare_base_model/base_model.h5]
+[2026-06-16 15:51:11,593: INFO: All layers frozen]
+[2026-06-16 15:51:11,612: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 15:51:11,649: WARNING: You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. ]
+[2026-06-16 15:51:11,819: INFO: Updated model saved to: artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 15:51:11,819: INFO: >>>>>> stage Prepare base model completed <<<<<<
+
+x==========x]
