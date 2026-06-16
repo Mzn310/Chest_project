@@ -103,3 +103,185 @@ mlflow server \
  --default-artifact-root s3://firstmlflow1 \
  --allowed-hosts \*
 The server runs on port 5000. Open your instance's Public IPv4 DNS at http://<your-ec2-dns>:5000 in a browser to verify the server is running. with go to instance and security and rules and modify rules and add tcp and port 5000
+
+# 🫁 Chest Cancer Classification using VGG16
+
+A deep learning pipeline for classifying chest CT scan images using transfer learning with VGG16. The project is structured into 4 sequential stages: data ingestion, base model preparation, training, and evaluation.
+
+---
+
+## 📁 Project Structure
+
+```
+Chest_project/
+├── artifacts/
+│   ├── data_ingestion/
+│   │   ├── data.zip
+│   │   └── Chest-CT-Scan-data/
+│   ├── prepare_base_model/
+│   │   ├── base_model.h5
+│   │   └── base_model_updated.h5
+│   └── training/
+│       └── model.keras
+├── logs/
+│   └── running_logs.log
+├── src/
+│   └── cnnClassifier/
+│       ├── logger.py
+│       └── pipeline/
+│           ├── stage_01_data_ingestion.py
+│           ├── stage_02_prepare_base_model.py
+│           ├── stage_03_model_trainer.py
+│           └── stage_04_model_evaluation.py
+├── scores.json
+└── README.md
+```
+
+---
+
+## ⚙️ Requirements
+
+```bash
+pip install tensorflow gdown
+```
+
+---
+
+## 🚀 Pipeline Stages
+
+### Stage 1 — Data Ingestion
+
+Downloads the Chest CT Scan dataset from Google Drive and extracts it locally.
+
+```python
+SOURCE_URL      = "https://drive.google.com/file/d/1z0mreUtRmR-P-magILsDR3T7M6IkGXtY/view?usp=sharing"
+LOCAL_DATA_FILE = "artifacts/data_ingestion/data.zip"
+UNZIP_DIR       = "artifacts/data_ingestion/"
+```
+
+**Run:**
+
+```bash
+python -m src.cnnClassifier.pipeline.stage_01_data_ingestion
+```
+
+---
+
+### Stage 2 — Prepare Base Model
+
+Loads VGG16 pretrained on ImageNet, freezes all layers, adds a custom classification head, and saves the updated model.
+
+```python
+IMAGE_SIZE    = [224, 224, 3]
+LEARNING_RATE = 0.01
+INCLUDE_TOP   = False
+WEIGHTS       = "imagenet"
+CLASSES       = 2
+```
+
+**Run:**
+
+```bash
+python -m src.cnnClassifier.pipeline.stage_02_prepare_base_model
+```
+
+**Architecture:**
+
+```
+VGG16 (frozen) → Flatten → Dense(2, softmax)
+Total params:     14,764,866
+Trainable params:     50,178   (custom head only)
+```
+
+---
+
+### Stage 3 — Model Training
+
+Loads the updated base model, applies data augmentation, and trains on the Chest CT Scan dataset.
+
+```python
+IMAGE_SIZE    = (224, 224)
+BATCH_SIZE    = 16
+EPOCHS        = 10
+AUGMENTATION  = True
+LEARNING_RATE = 0.01
+```
+
+**Augmentation applied:**
+
+- Rotation: 40°
+- Horizontal flip
+- Width & height shift: 0.2
+- Shear & zoom: 0.2
+
+**Run:**
+
+```bash
+python -m src.cnnClassifier.pipeline.stage_03_model_trainer
+```
+
+Model saved as `artifacts/training/model.keras`
+
+---
+
+### Stage 4 — Model Evaluation
+
+Evaluates the trained model on the validation split and saves scores to `scores.json`.
+
+```python
+TRAINED_MODEL_PATH = "artifacts/training/model.keras"
+BATCH_SIZE         = 16
+```
+
+**Run:**
+
+```bash
+python -m src.cnnClassifier.pipeline.stage_04_model_evaluation
+```
+
+**Output (`scores.json`):**
+
+```json
+{
+  "loss": 2.6105,
+  "accuracy": 0.8088
+}
+```
+
+---
+
+## 🏃 Run All Stages
+
+```bash
+python -m src.cnnClassifier.pipeline.stage_01_data_ingestion
+python -m src.cnnClassifier.pipeline.stage_02_prepare_base_model
+python -m src.cnnClassifier.pipeline.stage_03_model_trainer
+python -m src.cnnClassifier.pipeline.stage_04_model_evaluation
+```
+
+---
+
+## 📊 Results
+
+| Metric   | Value  |
+| -------- | ------ |
+| Loss     | 2.6105 |
+| Accuracy | 80.88% |
+
+---
+
+## 📝 Logs
+
+All stage logs are saved to:
+
+```
+logs/running_logs.log
+```
+
+Format:
+
+```
+[TIMESTAMP: LEVEL: MODULE: MESSAGE]
+```
+
+---
