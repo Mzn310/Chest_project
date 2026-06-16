@@ -30,3 +30,175 @@ x==========x]
 [2026-06-16 15:51:11,819: INFO: >>>>>> stage Prepare base model completed <<<<<<
 
 x==========x]
+[2026-06-16 16:37:59,807: INFO: *******************]
+[2026-06-16 16:37:59,807: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 16:37:59,862: ERROR: [Errno 2] Unable to synchronously open file (unable to open file: name = 'artifacts/base_model/base_model_updated.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 20, in <module>
+    model = tf.keras.models.load_model(BASE_MODEL_PATH)
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\saving\saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\legacy\saving\legacy_h5_format.py", line 120, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\h5py\_hl\files.py", line 564, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\h5py\_hl\files.py", line 238, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 56, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 57, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = 'artifacts/base_model/base_model_updated.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[2026-06-16 16:42:12,374: INFO: *******************]
+[2026-06-16 16:42:12,377: INFO: >>>>>> stage Prepare base model started <<<<<<]
+[2026-06-16 16:42:12,379: INFO: Created directory: artifacts/prepare_base_model]
+[2026-06-16 16:42:12,379: INFO: Loading VGG16 base model...]
+[2026-06-16 16:42:12,862: WARNING: You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. ]
+[2026-06-16 16:42:13,056: INFO: Base model saved to: artifacts/prepare_base_model/base_model.h5]
+[2026-06-16 16:42:13,056: INFO: All layers frozen]
+[2026-06-16 16:42:13,082: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 16:42:13,124: WARNING: You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. ]
+[2026-06-16 16:42:13,279: INFO: Updated model saved to: artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 16:42:13,281: INFO: >>>>>> stage Prepare base model completed <<<<<<
+
+x==========x]
+[2026-06-16 16:45:50,806: INFO: *******************]
+[2026-06-16 16:45:50,806: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 16:45:51,157: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 16:45:51,166: WARNING: Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.]
+[2026-06-16 16:45:51,170: INFO: Base model loaded from artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 16:45:51,173: ERROR: [WinError 3] Le chemin d’accès spécifié est introuvable: 'artifacts/data_ingestion/chicken-fecal-images']
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 37, in <module>
+    train_generator = train_datagen.flow_from_directory(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\legacy\preprocessing\image.py", line 1136, in flow_from_directory
+    return DirectoryIterator(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\legacy\preprocessing\image.py", line 456, in __init__
+    for subdir in sorted(os.listdir(directory)):
+FileNotFoundError: [WinError 3] Le chemin d’accès spécifié est introuvable: 'artifacts/data_ingestion/chicken-fecal-images'
+[2026-06-16 16:48:30,626: INFO: *******************]
+[2026-06-16 16:48:30,626: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 16:48:31,050: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 16:48:31,050: WARNING: Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.]
+[2026-06-16 16:48:31,050: INFO: Base model loaded from artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 16:48:31,136: INFO: Train and validation generators created]
+[2026-06-16 16:48:32,181: ERROR: numpy() is only available when eager execution is enabled.]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 56, in <module>
+    model.fit(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\backend\tensorflow\core.py", line 171, in convert_to_numpy
+    return np.array(x)
+NotImplementedError: numpy() is only available when eager execution is enabled.
+[2026-06-16 17:07:40,991: INFO: *******************]
+[2026-06-16 17:07:40,991: INFO: >>>>>> stage Evaluation stage started <<<<<<]
+[2026-06-16 17:07:40,991: INFO: Loading model from: artifacts/training/model.h5]
+[2026-06-16 17:07:40,991: ERROR: [Errno 2] Unable to synchronously open file (unable to open file: name = 'artifacts/training/model.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_04_model_evaluation.py", line 23, in <module>
+    model = tf.keras.models.load_model(TRAINED_MODEL_PATH)
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\saving\saving_api.py", line 196, in load_model
+    return legacy_h5_format.load_model_from_hdf5(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\legacy\saving\legacy_h5_format.py", line 120, in load_model_from_hdf5
+    f = h5py.File(filepath, mode="r")
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\h5py\_hl\files.py", line 564, in __init__
+    fid = make_fid(name, mode, userblock_size, fapl, fcpl, swmr=swmr)
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\h5py\_hl\files.py", line 238, in make_fid
+    fid = h5f.open(name, flags, fapl=fapl)
+  File "h5py/_objects.pyx", line 56, in h5py._objects.with_phil.wrapper
+  File "h5py/_objects.pyx", line 57, in h5py._objects.with_phil.wrapper
+  File "h5py/h5f.pyx", line 102, in h5py.h5f.open
+FileNotFoundError: [Errno 2] Unable to synchronously open file (unable to open file: name = 'artifacts/training/model.h5', errno = 2, error message = 'No such file or directory', flags = 0, o_flags = 0)
+[2026-06-16 17:09:19,992: INFO: *******************]
+[2026-06-16 17:09:19,992: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 17:09:20,276: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 17:09:20,280: WARNING: Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.]
+[2026-06-16 17:09:20,282: INFO: Base model loaded from artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 17:09:20,316: INFO: Train and validation generators created]
+[2026-06-16 17:09:20,964: ERROR: numpy() is only available when eager execution is enabled.]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 56, in <module>
+    model.fit(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\backend\tensorflow\core.py", line 171, in convert_to_numpy
+    return np.array(x)
+NotImplementedError: numpy() is only available when eager execution is enabled.
+[2026-06-16 17:10:11,859: INFO: *******************]
+[2026-06-16 17:10:11,859: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 17:10:12,151: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 17:10:12,151: WARNING: Compiled the loaded model, but the compiled metrics have yet to be built. `model.compile_metrics` will be empty until you train or evaluate the model.]
+[2026-06-16 17:10:12,151: INFO: Base model loaded from artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 17:10:12,196: INFO: Train and validation generators created]
+[2026-06-16 17:10:19,985: ERROR: Unknown variable: <Variable path=dense/kernel, shape=(25088, 2), dtype=float32, value=[[-0.01313013  0.00707503]
+ [-0.00196963 -0.00312649]
+ [ 0.00924384  0.0132609 ]
+ ...
+ [ 0.00600371  0.01017091]
+ [ 0.01261939  0.01223454]
+ [ 0.01498282  0.00519916]]>. This optimizer can only be called for the variables it was originally built with. When working with a new set of variables, you should recreate a new optimizer instance.]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 57, in <module>
+    model.fit(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\optimizers\base_optimizer.py", line 408, in _check_variables_are_known
+    raise ValueError(
+ValueError: Unknown variable: <Variable path=dense/kernel, shape=(25088, 2), dtype=float32, value=[[-0.01313013  0.00707503]
+ [-0.00196963 -0.00312649]
+ [ 0.00924384  0.0132609 ]
+ ...
+ [ 0.00600371  0.01017091]
+ [ 0.01261939  0.01223454]
+ [ 0.01498282  0.00519916]]>. This optimizer can only be called for the variables it was originally built with. When working with a new set of variables, you should recreate a new optimizer instance.
+[2026-06-16 17:31:37,439: INFO: *******************]
+[2026-06-16 17:31:37,439: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 17:31:37,764: INFO: Base model loaded from artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 17:31:37,809: INFO: Train and validation generators created]
+[2026-06-16 17:31:37,810: ERROR: You must call `compile()` before using the model.]
+Traceback (most recent call last):
+  File "C:\Users\mazen\OneDrive\Desktop\Chest_project\src\cnnClassifier\pipeline\stage_03_model_trainer.py", line 61, in <module>
+    model.fit(
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\utils\traceback_utils.py", line 122, in error_handler
+    raise e.with_traceback(filtered_tb) from None
+  File "C:\Users\mazen\AppData\Local\Programs\Python\Python310\lib\site-packages\keras\src\trainers\trainer.py", line 1058, in _assert_compile_called
+    raise ValueError(msg)
+ValueError: You must call `compile()` before using the model.
+[2026-06-16 17:32:55,353: INFO: *******************]
+[2026-06-16 17:32:55,354: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 17:32:55,636: INFO: Model loaded from: artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 17:32:55,641: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 17:32:55,645: INFO: Model compiled successfully]
+[2026-06-16 17:32:55,645: INFO: Augmentation enabled]
+[2026-06-16 17:32:55,678: INFO: Data generators created]
+[2026-06-16 17:32:55,678: INFO: Training for 10 epoch(s)...]
+[2026-06-16 17:39:00,526: WARNING: You are saving your model as an HDF5 file via `model.save()` or `keras.saving.save_model(model)`. This file format is considered legacy. We recommend using instead the native Keras format, e.g. `model.save('my_model.keras')` or `keras.saving.save_model(model, 'my_model.keras')`. ]
+[2026-06-16 17:39:01,392: INFO: Trained model saved to: artifacts/training/model.h5]
+[2026-06-16 17:39:01,394: INFO: >>>>>> stage Training completed <<<<<<
+
+x==========x]
+[2026-06-16 17:42:49,572: INFO: *******************]
+[2026-06-16 17:42:49,575: INFO: >>>>>> stage Training started <<<<<<]
+[2026-06-16 17:42:51,287: INFO: Model loaded from: artifacts/prepare_base_model/base_model_updated.h5]
+[2026-06-16 17:42:51,343: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 17:42:51,372: INFO: Model compiled successfully]
+[2026-06-16 17:42:51,372: INFO: Augmentation enabled]
+[2026-06-16 17:42:51,653: INFO: Data generators created]
+[2026-06-16 17:42:51,655: INFO: Training for 10 epoch(s)...]
+[2026-06-16 17:53:29,403: INFO: Trained model saved to: artifacts/training/model.keras]
+[2026-06-16 17:53:29,405: INFO: >>>>>> stage Training completed <<<<<<
+
+x==========x]
+[2026-06-16 17:55:58,503: INFO: *******************]
+[2026-06-16 17:55:58,503: INFO: >>>>>> stage Evaluation stage started <<<<<<]
+[2026-06-16 17:55:58,503: INFO: Loading model from: artifacts/training/model.keras]
+[2026-06-16 17:55:58,760: WARNING: TensorFlow GPU support is not available on native Windows for TensorFlow >= 2.11. Even if CUDA/cuDNN are installed, GPU will not be used. Please use WSL2 or the TensorFlow-DirectML plugin.]
+[2026-06-16 17:55:58,968: INFO: Model loaded successfully]
+[2026-06-16 17:55:58,968: INFO: Setting up validation data generator...]
+[2026-06-16 17:55:58,981: INFO: Evaluating model...]
+[2026-06-16 17:56:06,337: INFO: Loss: 2.6105]
+[2026-06-16 17:56:06,337: INFO: Accuracy: 0.8088]
+[2026-06-16 17:56:06,337: INFO: Scores saved to: scores.json]
+[2026-06-16 17:56:06,337: INFO: >>>>>> stage Evaluation stage completed <<<<<<
+
+x==========x]
