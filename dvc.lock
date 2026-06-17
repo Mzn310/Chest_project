@@ -1,0 +1,73 @@
+schema: '2.0'
+stages:
+  data_ingestion:
+    cmd: python -m src.cnnClassifier.pipeline.stage_01_data_ingestion
+    deps:
+    - path: src/cnnClassifier/pipeline/stage_01_data_ingestion.py
+      hash: md5
+      md5: 0aa2755bbfc41deafd299190d137a834
+      size: 1003
+    outs:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: 904fa45d934ce879b3b1933dca6cb2f1.dir
+      size: 49247431
+      nfiles: 343
+  prepare_base_model:
+    cmd: python -m src.cnnClassifier.pipeline.stage_02_prepare_base_model
+    deps:
+    - path: src/cnnClassifier/pipeline/stage_02_prepare_base_model.py
+      hash: md5
+      md5: e99de1cae8245d5b1b3de98ceeb1f6d9
+      size: 1881
+    outs:
+    - path: artifacts/prepare_base_model/base_model.keras
+      hash: md5
+      md5: 66c68bdf1926e59c42772c9040b289bf
+      size: 58931314
+    - path: artifacts/prepare_base_model/base_model_updated.keras
+      hash: md5
+      md5: 334e404595617551af89f1715875403c
+      size: 59141911
+  model_trainer:
+    cmd: python -m src.cnnClassifier.pipeline.stage_03_model_trainer
+    deps:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: 904fa45d934ce879b3b1933dca6cb2f1.dir
+      size: 49247431
+      nfiles: 343
+    - path: artifacts/prepare_base_model/base_model_updated.keras
+      hash: md5
+      md5: 334e404595617551af89f1715875403c
+      size: 59141911
+    - path: src/cnnClassifier/pipeline/stage_03_model_trainer.py
+      hash: md5
+      md5: 2ce32c5e4a9f9efddcdd2d7d80bbfa28
+      size: 3320
+    outs:
+    - path: artifacts/training/model.keras
+      hash: md5
+      md5: d1b32a6ef41bb3053c9ca375ea40da6e
+      size: 59141246
+  model_evaluation:
+    cmd: python -m src.cnnClassifier.pipeline.stage_04_model_evaluation
+    deps:
+    - path: artifacts/data_ingestion/Chest-CT-Scan-data
+      hash: md5
+      md5: 904fa45d934ce879b3b1933dca6cb2f1.dir
+      size: 49247431
+      nfiles: 343
+    - path: artifacts/training/model.keras
+      hash: md5
+      md5: d1b32a6ef41bb3053c9ca375ea40da6e
+      size: 59141246
+    - path: src/cnnClassifier/pipeline/stage_04_model_evaluation.py
+      hash: md5
+      md5: ce07b6d9bcb936d64da6c42276524f36
+      size: 1963
+    outs:
+    - path: scores.json
+      hash: md5
+      md5: 6bd2be9939b90cdd3330dbb8f6dacca8
+      size: 49

@@ -1,23 +1,12 @@
 import os
-import logging
 import tensorflow as tf
-
+from cnnClassifier.logger import logger
 # ─── Logger Setup ─────────────────────────────────────
-os.makedirs("logs", exist_ok=True)
 
-logging.basicConfig(
-    level=logging.INFO,
-    format="[%(asctime)s: %(levelname)s: %(module)s: %(message)s]",
-    handlers=[
-        logging.FileHandler("logs/running_logs.log"),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger("cnnClassifierLogger")
 
 # ─── Config ───────────────────────────────────────────
 STAGE_NAME         = "Training"
-BASE_MODEL_PATH    = "artifacts/prepare_base_model/base_model_updated.h5"
+BASE_MODEL_PATH    = "artifacts/prepare_base_model/base_model_updated.keras"
 TRAINED_MODEL_PATH = "artifacts/training/model.keras"
 TRAINING_DATA      = "artifacts/data_ingestion/Chest-CT-Scan-data"
 

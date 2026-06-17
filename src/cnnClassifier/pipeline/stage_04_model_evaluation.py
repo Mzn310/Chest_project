@@ -1,7 +1,7 @@
 import os
 import json
 import tensorflow as tf
-from src.cnnClassifier.logger import logger
+from cnnClassifier.logger import logger
 
 
 # ─── Config ───────────────────────────────────────────

@@ -285,3 +285,140 @@ Format:
 ```
 
 ---
+
+# Chest CT Scan Classifier — DVC + DagsHub Setup
+
+This document explains how data and model versioning is configured for this project using **DVC** (Data Version Control) with **DagsHub** as the remote storage backend.
+
+## Why DVC + DagsHub?
+
+Git is great for code but terrible for large binary files like datasets and trained models — it bloats the repo and makes every clone painfully slow. DVC solves this by tracking large files separately, storing only small metadata pointers (`.dvc` files) in git, while the actual data lives in a remote storage backend.
+
+DagsHub provides that remote storage for free, plus a web UI for visualizing your pipeline DAG, data, and experiments, and it integrates directly with your GitHub repo.
+
+This project previously downloaded its dataset from a public Google Drive link via `gdown`. That approach is fragile for automated environments: Google Drive throttles and rate-limits repeated automated downloads, and large files trigger a virus-scan confirmation page that frequently breaks non-browser clients (CI runners, scheduled jobs, etc.). Moving the dataset to a DVC remote on DagsHub removes that dependency entirely.
+
+## Prerequisites
+
+- DVC installed (`pip install dvc`)
+- A DagsHub account and repository: [dagshub.com/Mzn310/DVC_Pipeline](https://dagshub.com/Mzn310/DVC_Pipeline)
+- A DagsHub personal access token (generate one under **Profile → Settings → Tokens**)
+
+## One-Time Setup
+
+### 1. Add the DagsHub DVC remote
+
+DagsHub exposes a DVC-compatible endpoint at `<repo-url>.dvc`:
+
+```bash
+dvc remote add origin https://dagshub.com/Mzn310/DVC_Pipeline.dvc
+dvc remote default origin
+```
+
+### 2. Configure authentication
+
+DagsHub requires basic auth (username + token) for both push and pull on private repos:
+
+```bash
+dvc remote modify origin --local auth basic
+dvc remote modify origin --local user Mzn310
+dvc remote modify origin --local password <your-dagshub-token>
+```
+
+> **Why `--local`?** Anything set _without_ `--local` is written to `.dvc/config`, which is tracked by git and would leak into your repository. The `--local` flag writes to `.dvc/config.local` instead, which is gitignored by default — keeping your token out of version control.
+
+### 3. Verify the remote
+
+```bash
+dvc remote list
+```
+
+Expected output:
+
+```
+origin    https://dagshub.com/Mzn310/DVC_Pipeline.dvc
+```
+
+## Daily Usage
+
+### Pushing data/models to DagsHub
+
+After running the pipeline and producing new DVC-tracked outputs:
+
+```bash
+dvc push -r origin
+```
+
+### Pulling data/models from DagsHub
+
+On a fresh clone, or to sync the latest tracked data:
+
+```bash
+dvc pull -r origin
+```
+
+> **Note:** the DVC remote and DagsHub's "Storage Bucket" feature are separate systems. Data pushed via `dvc push` will not appear under the Storage Buckets section of the DagsHub UI — it's tracked through `.dvc` pointer files alongside your git history instead.
+
+## CI/CD Integration
+
+In automated environments (GitHub Actions, etc.), store your DagsHub username and token as repository secrets, then authenticate before pulling/pushing:
+
+```bash
+dvc remote modify origin --local auth basic
+dvc remote modify origin --local user "$DAGSHUB_USERNAME"
+dvc remote modify origin --local password "$DAGSHUB_TOKEN"
+dvc pull -r origin
+```
+
+Example GitHub Actions step:
+
+```yaml
+- name: Configure DVC remote
+  run: |
+    dvc remote modify origin --local auth basic
+    dvc remote modify origin --local user "${{ secrets.DAGSHUB_USERNAME }}"
+    dvc remote modify origin --local password "${{ secrets.DAGSHUB_TOKEN }}"
+
+- name: Pull data
+  run: dvc pull -r origin
+```
+
+## Pipeline Overview
+
+The full pipeline is defined in `dvc.yaml` and consists of four stages:
+
+| Stage                | Description                          | Key Outputs                                             |
+| -------------------- | ------------------------------------ | ------------------------------------------------------- |
+| `data_ingestion`     | Pulls the Chest CT Scan dataset      | `artifacts/data_ingestion/Chest-CT-Scan-data`           |
+| `prepare_base_model` | Builds and adapts the base CNN model | `artifacts/prepare_base_model/base_model_updated.keras` |
+| `model_trainer`      | Trains the classifier                | `artifacts/training/model.keras`                        |
+| `model_evaluation`   | Evaluates the trained model          | `scores.json`                                           |
+
+Run the full pipeline with:
+
+```bash
+dvc repro
+```
+
+Run a specific stage (and anything downstream that depends on it):
+
+```bash
+dvc repro model_trainer
+```
+
+Force a rerun of a stage even if DVC thinks nothing changed:
+
+```bash
+dvc repro --force model_trainer model_evaluation
+```
+
+## Troubleshooting
+
+**`dvc add` fails with "overlaps with an output of stage"**
+This means the path is already declared as a pipeline output in `dvc.yaml`. Don't `dvc add` it manually — let `dvc repro` manage it instead.
+
+**Push/pull fails with an authentication error**
+Confirm your token hasn't expired and that `dvc remote modify origin --local ...` was run with `--local` (check `.dvc/config.local` exists and contains your credentials, not `.dvc/config`).
+
+**Pipeline reruns produce identical results**
+DVC skips stages whose dependencies haven't changed. If you need to force a genuine retrain (e.g., after an accuracy check fails), use `dvc repro --force <stage>`.

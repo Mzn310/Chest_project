@@ -1,13 +1,13 @@
 import os
 import logging
 import tensorflow as tf
-from src.cnnClassifier.logger import logger
+from cnnClassifier.logger import logger
 
 
 STAGE_NAME         = "Prepare base model"
 ROOT_DIR           = "artifacts/prepare_base_model"
-BASE_MODEL_PATH    = "artifacts/prepare_base_model/base_model.h5"
-UPDATED_MODEL_PATH = "artifacts/prepare_base_model/base_model_updated.h5"
+BASE_MODEL_PATH    = "artifacts/prepare_base_model/base_model.keras"
+UPDATED_MODEL_PATH = "artifacts/prepare_base_model/base_model_updated.keras"
 
 IMAGE_SIZE    = [224, 224, 3]
 LEARNING_RATE = 0.01
