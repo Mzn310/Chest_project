@@ -8,14 +8,14 @@ def test_decode_image():
 
     decoded = base64.b64decode(encoded)
     assert len(decoded) > 0, "Decoded image should not be empty"
-    print("✅ test_decode_image passed")
+    print(" test_decode_image passed")
 
 # ── Test 2: artifacts folders exist after training ──
 def test_artifacts_exist():
     assert os.path.exists("artifacts/data_ingestion"),       "data_ingestion folder missing"
     assert os.path.exists("artifacts/prepare_base_model"),   "prepare_base_model folder missing"
     assert os.path.exists("artifacts/training"),             "training folder missing"
-    print("✅ test_artifacts_exist passed")
+    print(" test_artifacts_exist passed")
 
 # ── Test 3: model file exists ──
 def test_model_file_exists():

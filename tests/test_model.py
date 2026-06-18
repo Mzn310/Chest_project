@@ -22,7 +22,7 @@ def predict(image_path):
 
 print("Loading model...")
 model = tf.keras.models.load_model(MODEL_PATH, compile=False)
-print("Model loaded ✅\n")
+print("Model loaded \n")
 
 passed = 0
 failed = 0
@@ -46,4 +46,4 @@ if failed > 0:
     print(f" {failed} test(s) failed — blocking deployment")
     raise SystemExit(1)
 
-print("All tests passed ✅")
+print("All tests passed ")
