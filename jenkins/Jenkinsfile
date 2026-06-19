@@ -47,7 +47,7 @@ pipeline {
                         docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest &&
                         docker stop app || true &&
                         docker rm app || true &&
-                        docker run -d --name app -p 5001:500 ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest
+                        docker run -d --name app -p 5001:5001 ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest
                     '
                 """
             }
