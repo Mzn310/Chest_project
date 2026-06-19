@@ -7,6 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY app.py .
 COPY artifacts/ ./artifacts/
+COPY templates/ ./templates/
 
 EXPOSE 5001
 
