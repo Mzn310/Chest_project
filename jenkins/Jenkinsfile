@@ -34,7 +34,16 @@ pipeline {
         '''
     }
 }
-    
+    stage("Pre-build Cleanup") {
+    steps {
+        sh '''
+            docker system prune -a -f --volumes || true
+            docker builder prune -a -f || true
+            docker rmi $(docker images -q) 2>/dev/null || true
+            rm -rf /tmp/*
+        '''
+    }
+}
     stage("Build Image"){
         steps {
             script {
