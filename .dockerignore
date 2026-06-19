@@ -1,0 +1,14 @@
+.git
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.env
+venv/
+env/
+node_modules/
+data/
+models/
+*.zip
+*.tar
+*.log
