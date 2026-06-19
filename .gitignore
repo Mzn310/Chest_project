@@ -1,1 +1,4 @@
 artifacts/*
+
+!artifacts/training/
+!artifacts/training/*
