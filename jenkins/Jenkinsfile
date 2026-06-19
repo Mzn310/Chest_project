@@ -88,3 +88,12 @@ pipeline {
 //             }
 //         }
 //     }
+
+//  stage("Pre-build Cleanup") {
+//     steps {
+//         sh '''
+//             docker system prune -a -f --volumes || true
+//             docker rmi $(docker images -q) 2>/dev/null || true
+//         '''
+//     }
+// }
