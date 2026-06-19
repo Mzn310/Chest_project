@@ -2,3 +2,14 @@ artifacts/*
 
 !artifacts/training/
 !artifacts/training/*
+
+data/
+notebooks/
+tests/
+
+
+.ipynb_checkpoints/
+__pycache__/
+*.pyc
+.env
+venv/
