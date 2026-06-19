@@ -22,15 +22,15 @@ pipeline {
         sh '''
             export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
             export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
-            export AWS_DEFAULT_REGION=us-east-1
+            export AWS_DEFAULT_REGION=eu-north-1
 
             echo "Checking AWS identity..."
             aws sts get-caller-identity
 
             echo "Getting ECR login token..."
-            aws ecr get-login-password --region us-east-1 > /tmp/token
+            aws ecr get-login-password --region eu-north-1 > /tmp/token
 
-            cat /tmp/token | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.us-east-1.amazonaws.com
+            cat /tmp/token | docker login --username AWS --password-stdin $AWS_ACCOUNT_ID.dkr.ecr.eu-north-1.amazonaws.com
         '''
     }
 }
@@ -38,14 +38,14 @@ pipeline {
     stage("Build Image"){
         steps {
             script {
-                sh "docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest ."
+                sh "docker build -t ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com/${ECR_REPOSITORY}:latest ."
             }
         }
     }
     stage("Push Image to ECR"){
         steps {
             script {
-                sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest"
+                sh "docker push ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com/${ECR_REPOSITORY}:latest"
             }
         }
     }
@@ -54,11 +54,11 @@ pipeline {
             sshagent(['ssh_key']) {
                 sh """
                     ssh -o StrictHostKeyChecking=no -l ubuntu 13.62.166.49 '
-                        aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com &&
-                        docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest &&
+                        aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com &&
+                        docker pull ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com/${ECR_REPOSITORY}:latest &&
                         docker stop app || true &&
                         docker rm app || true &&
-                        docker run -d --name app -p 5001:5001 ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com/${ECR_REPOSITORY}:latest
+                        docker run -d --name app -p 5001:5001 ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com/${ECR_REPOSITORY}:latest
                     '
                 """
             }
@@ -84,7 +84,7 @@ pipeline {
 // stage("Login to ECR"){
 //         steps {
 //             script {
-//                 sh "aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.us-east-1.amazonaws.com"
+//                 sh "aws ecr get-login-password --region eu-north-1 | docker login --username AWS --password-stdin ${AWS_ACCOUNT_ID}.dkr.ecr.eu-north-1.amazonaws.com"
 //             }
 //         }
 //     }
